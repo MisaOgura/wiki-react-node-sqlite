@@ -6,7 +6,10 @@
   "scripts": {
     "start:dev": "webpack-dev-server --open",
     "build:client": "webpack",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage && standard",
+    "test:watch": "jest --watch",
+    "lint": "standard",
+    "lint:fix": "standard --fix"
   },
   "author": "Misa ogura",
   "license": "ISC",
@@ -21,7 +24,32 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "clean-webpack-plugin": "^0.1.17",
+    "enzyme": "^3.1.0",
+    "enzyme-adapter-react-16": "^1.0.2",
+    "jest": "^21.2.1",
+    "standard": "^10.0.3",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.3"
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/testConfig/shim.js",
+      "<rootDir>/testConfig/setupTest.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/testConfig/"
+    ]
+  },
+  "standard": {
+    "globals": [
+      "describe",
+      "context",
+      "before",
+      "beforeEach",
+      "after",
+      "afterEach",
+      "it",
+      "expect"
+    ]
   }
 }

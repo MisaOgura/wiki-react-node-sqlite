@@ -16,7 +16,7 @@ describe('Home', () => {
   })
 
   it('renders a link to /wikis/new', () => {
-    const linkToNewWiki = home.find(Link).find('.create-wiki')
+    const linkToNewWiki = home.find(Link).find('.home')
     expect(linkToNewWiki.prop('to')).toEqual('/wikis/new')
   })
 })

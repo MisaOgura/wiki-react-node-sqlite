@@ -6,11 +6,12 @@ import createWiki from '../services/createWiki'
 class NewWiki extends Component {
   constructor (props) {
     super(props)
-    this.state = {title: '', content: ''}
+    this.state = {title: '', content: '', submitted: false}
   }
 
   handleSubmit (e) {
     e.preventDefault()
+    this.setState({submitted: true})
 
     const title = this.state.title
     const content = this.state.content
@@ -43,7 +44,7 @@ class NewWiki extends Component {
             value={this.state.content}
             componentClass='textarea' />
         </FormGroup>
-        <Button disabled={this.validateForm()} type='submit'>Create</Button>
+        <Button disabled={this.validateForm() || this.state.submitted} type='submit'>Create</Button>
       </form>
     </div>
   }

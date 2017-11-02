@@ -97,11 +97,21 @@ describe('NewWiki', () => {
         title: 'The Polar Bear Family and Me',
         content: 'Cute and fluffy bears!'
       }
-      setStateAndForceUpdate(mountedNewWiki, requestBody)
-
-      mountedNewWiki.find('Button').simulate('submit')
+      submitFormAndForceUpdate(mountedNewWiki, requestBody)
 
       expect(createWiki).toHaveBeenCalledWith(requestBody)
+    })
+
+    it('disables the create button', () => {
+      const mountedNewWiki = mount(<NewWiki />)
+      const requestBody = {
+        title: 'The Polar Bear Family and Me',
+        content: 'Cute and fluffy bears!'
+      }
+      submitFormAndForceUpdate(mountedNewWiki, requestBody)
+
+      const createButtonAfterSubmit = mountedNewWiki.find('Button')
+      expect(createButtonAfterSubmit.prop('disabled')).toEqual(true)
     })
 
     // TODO - add test cases for handling responses both success & error
@@ -109,6 +119,12 @@ describe('NewWiki', () => {
 
   function setStateAndForceUpdate (component, nextState) {
     component.setState(nextState)
+    component.update()
+  }
+
+  function submitFormAndForceUpdate (component, requestBody) {
+    component.setState(requestBody)
+    component.find('Button').simulate('submit')
     component.update()
   }
 

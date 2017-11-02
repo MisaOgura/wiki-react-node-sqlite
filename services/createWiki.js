@@ -1,14 +1,7 @@
-import request from 'request-promise'
+import request from 'axios'
 
 const createWiki = (title, content) => {
-  const options = {
-    method: 'POST',
-    uri: '/api/wikis',
-    body: {title, content},
-    json: true
-  }
-
-  return request(options)
+  return request.post('/api/wikis', {title, content})
 }
 
 export default createWiki

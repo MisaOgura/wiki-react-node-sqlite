@@ -1,7 +1,9 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { shallow, mount } from 'enzyme'
 
 import NewWiki from './NewWiki'
+import createWiki from '../services/createWiki'
+jest.mock('../services/createWiki')
 
 describe('NewWiki', () => {
   let newWiki
@@ -86,6 +88,23 @@ describe('NewWiki', () => {
         expect(createButton.prop('disabled')).toEqual(true)
       })
     })
+  })
+
+  describe('on submit:', () => {
+    it('invokes the callback function with the current title and content', () => {
+      const mountedNewWiki = mount(<NewWiki />)
+      const requestBody = {
+        title: 'The Polar Bear Family and Me',
+        content: 'Cute and fluffy bears!'
+      }
+      setStateAndForceUpdate(mountedNewWiki, requestBody)
+
+      mountedNewWiki.find('Button').simulate('submit')
+
+      expect(createWiki).toHaveBeenCalledWith(requestBody)
+    })
+
+    // TODO - add test cases for handling responses both success & error
   })
 
   function setStateAndForceUpdate (component, nextState) {

@@ -1,10 +1,21 @@
 import React, { Component } from 'react'
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap'
 
+import createWiki from '../services/createWiki'
+
 class NewWiki extends Component {
   constructor (props) {
     super(props)
     this.state = {title: '', content: ''}
+  }
+
+  handleSubmit (e) {
+    e.preventDefault()
+
+    const title = this.state.title
+    const content = this.state.content
+
+    createWiki({title, content})
   }
 
   handleChange (e) {
@@ -18,7 +29,7 @@ class NewWiki extends Component {
   render () {
     return <div className='new-wiki'>
       Create a new Wiki
-      <form className='new-wiki-form'>
+      <form onSubmit={this.handleSubmit.bind(this)} className='new-wiki-form'>
         <FormGroup controlId='title'>
           <ControlLabel>Title</ControlLabel>
           <FormControl
@@ -32,7 +43,7 @@ class NewWiki extends Component {
             value={this.state.content}
             componentClass='textarea' />
         </FormGroup>
-        <Button disabled={this.validateForm()}>Create</Button>
+        <Button disabled={this.validateForm()} type='submit'>Create</Button>
       </form>
     </div>
   }

@@ -11,6 +11,10 @@ class NewWiki extends Component {
     this.setState({[e.target.id]: e.target.value})
   }
 
+  validateForm () {
+    return this.state.title === '' || this.state.content === ''
+  }
+
   render () {
     return <div className='new-wiki'>
       Create a new Wiki
@@ -28,7 +32,7 @@ class NewWiki extends Component {
             value={this.state.content}
             componentClass='textarea' />
         </FormGroup>
-        <Button>Create</Button>
+        <Button disabled={this.validateForm()}>Create</Button>
       </form>
     </div>
   }

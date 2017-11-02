@@ -11,11 +11,11 @@ describe('Home', () => {
     home = shallow(<Home />)
   })
 
-  it('renders a div with a className wikis-index', () => {
+  it('displays a div with a className wikis-index', () => {
     expect(home.hasClass('wikis-index')).toEqual(true)
   })
 
-  it('renders a link to /wikis/new', () => {
+  it('displays a link to /wikis/new', () => {
     const linkToNewWiki = home.find(Link).find('.home')
     expect(linkToNewWiki.prop('to')).toEqual('/wikis/new')
   })

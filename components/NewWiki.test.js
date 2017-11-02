@@ -11,33 +11,35 @@ describe('NewWiki', () => {
     formNode = newWiki.find('form')
   })
 
-  it('renders a div with a className new-wiki', () => {
-    expect(newWiki.hasClass('new-wiki')).toEqual(true)
-  })
+  describe('displays:', () => {
+    it('a div with a className new-wiki', () => {
+      expect(newWiki.hasClass('new-wiki')).toEqual(true)
+    })
 
-  it('displays a form with a className new-wiki-form', () => {
-    expect(formNode.hasClass('new-wiki-form')).toEqual(true)
-  })
+    it('a form with a className new-wiki-form', () => {
+      expect(formNode.hasClass('new-wiki-form')).toEqual(true)
+    })
 
-  it('renders a form for the title', () => {
-    const titleForm = formNode
-      .find('FormGroup')
-      .filterWhere(e => e.prop('controlId') === 'title')
+    it('a form for the title', () => {
+      const titleForm = formNode
+        .find('FormGroup')
+        .filterWhere(e => e.prop('controlId') === 'title')
 
-    expect(titleForm).toHaveLength(1)
-  })
+      expect(titleForm).toHaveLength(1)
+    })
 
-  it('renders a form for the content', () => {
-    const contentForm = formNode
-      .find('FormGroup')
-      .filterWhere(e => e.prop('controlId') === 'content')
+    it('a form for the content', () => {
+      const contentForm = formNode
+        .find('FormGroup')
+        .filterWhere(e => e.prop('controlId') === 'content')
 
-    expect(contentForm).toHaveLength(1)
-  })
+      expect(contentForm).toHaveLength(1)
+    })
 
-  it('renders a submit button', () => {
-    const submitButton = formNode.find('Button')
-    expect(submitButton).toHaveLength(1)
+    it('a submit button', () => {
+      const submitButton = formNode.find('Button')
+      expect(submitButton).toHaveLength(1)
+    })
   })
 
   it('initialises with an empty title and content', () => {
@@ -45,47 +47,57 @@ describe('NewWiki', () => {
     expect(newWiki.state('content')).toEqual('')
   })
 
-  it('updates the state then the title is changed', () => {
-    const titleTextArea = formNode
-      .find('FormGroup')
-      .filterWhere(e => e.prop('controlId') === 'title')
-      .find('FormControl')
+  describe('on form change:', () => {
+    it('updates the title state', () => {
+      const titleTextArea = formNode
+        .find('FormGroup')
+        .filterWhere(e => e.prop('controlId') === 'title')
+        .find('FormControl')
 
-    titleTextArea.simulate('change', {target: {value: 'Test title', id: 'title'}})
-    expect(newWiki.state('title')).toEqual('Test title')
+      const textInput = 'Test title'
+      titleTextArea.simulate('change', {target: {value: textInput, id: 'title'}})
+
+      expect(newWiki.state('title')).toEqual(textInput)
+    })
+
+    it('updates the content state', () => {
+      const contentTextArea = formNode
+        .find('FormGroup')
+        .filterWhere(e => e.prop('controlId') === 'content')
+        .find('FormControl')
+
+      const textInput = 'Some content'
+      contentTextArea.simulate('change', {target: {value: textInput, id: 'content'}})
+
+      expect(newWiki.state('content')).toEqual(textInput)
+    })
   })
 
-  it('updates the state then the content is changed', () => {
-    const contentTextArea = formNode
-      .find('FormGroup')
-      .filterWhere(e => e.prop('controlId') === 'content')
-      .find('FormControl')
+  describe('on state change:', () => {
+    it('updates the value of the title', () => {
+      const updatedState = 'Awesome title'
+      newWiki.setState({title: updatedState})
+      newWiki.update()
 
-    contentTextArea.simulate('change', {target: {value: 'Some content', id: 'content'}})
-    expect(newWiki.state('content')).toEqual('Some content')
-  })
+      const titleTextArea = newWiki.find('form')
+        .find('FormGroup')
+        .filterWhere(e => e.prop('controlId') === 'title')
+        .find('FormControl')
 
-  it('updates the value of the title when the state is changed', () => {
-    newWiki.setState({title: 'Test title'})
-    newWiki.update()
+      expect(titleTextArea.prop('value')).toEqual(updatedState)
+    })
 
-    const titleTextArea = newWiki.find('form')
-      .find('FormGroup')
-      .filterWhere(e => e.prop('controlId') === 'title')
-      .find('FormControl')
+    it('updates the value of the content', () => {
+      const updatedState = 'New content'
+      newWiki.setState({content: updatedState})
+      newWiki.update()
 
-    expect(titleTextArea.prop('value')).toEqual('Test title')
-  })
+      const contentTextArea = newWiki.find('form')
+        .find('FormGroup')
+        .filterWhere(e => e.prop('controlId') === 'content')
+        .find('FormControl')
 
-  it('updates the value of the content when the state is changed', () => {
-    newWiki.setState({content: 'New content'})
-    newWiki.update()
-
-    const contentTextArea = newWiki.find('form')
-      .find('FormGroup')
-      .filterWhere(e => e.prop('controlId') === 'content')
-      .find('FormControl')
-
-    expect(contentTextArea.prop('value')).toEqual('New content')
+      expect(contentTextArea.prop('value')).toEqual(updatedState)
+    })
   })
 })

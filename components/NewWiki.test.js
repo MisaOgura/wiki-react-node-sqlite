@@ -1,51 +1,25 @@
 import React from 'react'
-import { shallow, mount } from 'enzyme'
+import { shallow } from 'enzyme'
 
 import NewWiki from './NewWiki'
 
 describe('NewWiki', () => {
-  let newWiki, formNode
+  let newWiki
 
   beforeEach(() => {
     newWiki = shallow(<NewWiki />)
-    formNode = newWiki.find('form')
   })
 
-  describe('displays:', () => {
-    // TODO - review as many of these tests will be redundant
-    it('a div with a className new-wiki', () => {
-      expect(newWiki.hasClass('new-wiki')).toEqual(true)
+  describe('with the initial state:', () => {
+    it('the title and content are empty', () => {
+      expect(newWiki.state('title')).toEqual('')
+      expect(newWiki.state('content')).toEqual('')
     })
 
-    it('a form with a className new-wiki-form', () => {
-      expect(formNode.hasClass('new-wiki-form')).toEqual(true)
+    it('the create button is disabled', () => {
+      const createButton = newWiki.find('Button')
+      expect(createButton.prop('disabled')).toEqual(true)
     })
-
-    it('a form for the title', () => {
-      const titleForm = formNode
-        .find('FormGroup')
-        .filterWhere(e => e.prop('controlId') === 'title')
-
-      expect(titleForm).toHaveLength(1)
-    })
-
-    it('a form for the content', () => {
-      const contentForm = formNode
-        .find('FormGroup')
-        .filterWhere(e => e.prop('controlId') === 'content')
-
-      expect(contentForm).toHaveLength(1)
-    })
-
-    it('a submit button', () => {
-      const submitButton = formNode.find('Button')
-      expect(submitButton).toHaveLength(1)
-    })
-  })
-
-  it('initialises with an empty title and content', () => {
-    expect(newWiki.state('title')).toEqual('')
-    expect(newWiki.state('content')).toEqual('')
   })
 
   describe('on form change:', () => {
@@ -69,7 +43,7 @@ describe('NewWiki', () => {
   })
 
   describe('on state change:', () => {
-    it('updates the value of the title', () => {
+    it('updates the title form', () => {
       const nextState = {title: 'The Blue Planet'}
       setStateAndForceUpdate(newWiki, nextState)
 
@@ -78,7 +52,7 @@ describe('NewWiki', () => {
       expect(title.prop('value')).toEqual(nextState.title)
     })
 
-    it('updates the value of the content', () => {
+    it('updates the content form', () => {
       const nextState = {content: 'Human Planet'}
       setStateAndForceUpdate(newWiki, nextState)
 
@@ -86,39 +60,31 @@ describe('NewWiki', () => {
 
       expect(content.prop('value')).toEqual(nextState.content)
     })
-  })
 
-  describe('submit button', () => {
-    it('is disabled by default', () => {
-      const submitButton = formNode.find('Button')
-      expect(submitButton.prop('disabled')).toEqual(true)
-    })
+    describe('the create button', () => {
+      it('is activated when both the title and content are not empty', () => {
+        setStateAndForceUpdate(newWiki, {title: 'Frozen Planet', content: 'Survival below zero'})
 
-    it('is activated when both the title and content are not empty', () => {
-      const newWiki = mount(<NewWiki />)
-      setStateAndForceUpdate(newWiki, {title: 'Frozen Planet', content: 'Survival below zero'})
+        const createButton = newWiki.find('Button')
 
-      const submitButton = newWiki.find('Button')
+        expect(createButton.prop('disabled')).toEqual(false)
+      })
 
-      expect(submitButton.prop('disabled')).toEqual(false)
-    })
+      it('is disabled when the title is empty', () => {
+        setStateAndForceUpdate(newWiki, {content: 'Deep Blue'})
 
-    it('is disabled when the title is empty', () => {
-      const newWiki = mount(<NewWiki />)
-      setStateAndForceUpdate(newWiki, {content: 'Deep Blue'})
+        const createButton = newWiki.find('Button')
 
-      const submitButton = newWiki.find('Button')
+        expect(createButton.prop('disabled')).toEqual(true)
+      })
 
-      expect(submitButton.prop('disabled')).toEqual(true)
-    })
+      it('is disabled when the content is empty', () => {
+        setStateAndForceUpdate(newWiki, {title: 'The Great Rift'})
 
-    it('is disabled when the content is empty', () => {
-      const newWiki = mount(<NewWiki />)
-      setStateAndForceUpdate(newWiki, {title: 'Life'})
+        const createButton = newWiki.find('Button')
 
-      const submitButton = newWiki.find('Button')
-
-      expect(submitButton.prop('disabled')).toEqual(true)
+        expect(createButton.prop('disabled')).toEqual(true)
+      })
     })
   })
 

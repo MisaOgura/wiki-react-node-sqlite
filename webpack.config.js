@@ -2,13 +2,13 @@ const path = require('path')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 const plugins = [
-  new CleanWebpackPlugin(['dist/js'], {
+  new CleanWebpackPlugin(['build/js'], {
     verbose: true
   })
 ]
 
 module.exports = {
-  entry: './index.js',
+  entry: './app/index.js',
   devtool: 'eval-source-map',
   devServer: {
     contentBase: './public',
@@ -27,7 +27,6 @@ module.exports = {
   plugins: plugins,
   output: {
     path: path.join(__dirname, 'public'),
-    filename: 'bundle.js',
-    publicPath: '/'
+    filename: 'bundle.js'
   }
 }

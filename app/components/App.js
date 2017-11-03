@@ -7,8 +7,8 @@ import NewWiki from './NewWiki'
 const App = () => {
   return (
     <Switch>
-      <Route exact path='/wikis/new' component={NewWiki}/>
-      <Route exact path='/' component={Home}/>
+      <Route exact path='/wikis/new' component={NewWiki} />
+      <Route exact path='/' component={Home} />
     </Switch>
   )
 }

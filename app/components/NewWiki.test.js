@@ -106,7 +106,7 @@ describe('NewWiki', () => {
     let mountedNewWikiWithHistory
 
     beforeEach(() => {
-      mountedNewWikiWithHistory = mount(<NewWiki history={createMemoryHistory()}/>)
+      mountedNewWikiWithHistory = mount(<NewWiki history={createMemoryHistory()} />)
     })
 
     it('invokes the callback function with the current title and content', () => {
@@ -131,7 +131,7 @@ describe('NewWiki', () => {
 
     describe.skip('when the request fails:', () => {
       it('display an error message when the request fails', () => {
-        createWiki.mockReturnValue(Promise.reject({status: 500, message: 'error'}))
+        createWiki.mockReturnValue(Promise.reject(new Error('Error')))
         submitFormAndForceUpdate(mountedNewWikiWithHistory, requestBody)
         // expectation
       })

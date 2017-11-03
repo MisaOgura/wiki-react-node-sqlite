@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build:server && node ./dist/server.js",
-    "start:dev": "concurrently 'npm run build:server:dev' 'nodemon ./dist/server.js'",
+    "start": "npm run build:client && npm run build:server && node ./build/server.js",
+    "start:dev": "concurrently 'npm run build:server:dev' 'nodemon ./build/server.js'",
     "start:dev:client": "webpack-dev-server --open",
     "build:client": "webpack",
-    "build:server": "babel server.js -d dist",
-    "build:server:dev": "babel server.js -d dist --watch",
+    "build:server": "babel ./app -d build --ignore '**/*.test.js'",
+    "build:server:dev": "babel ./app -d build --ignore '**/*.test.js' --watch",
     "test": "jest --coverage && standard",
     "test:watch": "jest --watch",
     "lint": "standard",
@@ -46,6 +46,9 @@
     "setupFiles": [
       "<rootDir>/testConfig/shim.js",
       "<rootDir>/testConfig/setupTest.js"
+    ],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/build"
     ],
     "coveragePathIgnorePatterns": [
       "<rootDir>/testConfig/"

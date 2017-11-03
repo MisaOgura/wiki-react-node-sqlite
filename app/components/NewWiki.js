@@ -11,7 +11,7 @@ class NewWiki extends Component {
 
   handleSubmit (event) {
     event.preventDefault()
-    
+
     this.setState({submitted: true})
 
     const title = this.state.title

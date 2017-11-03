@@ -1,9 +1,16 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
+import { createMemoryHistory } from 'history'
 
 import NewWiki from './NewWiki'
 import createWiki from '../services/createWiki'
+
 jest.mock('../services/createWiki')
+createWiki.mockReturnValue(Promise.resolve({status: 200, body: 'success'}))
+
+afterEach(() => {
+  jest.clearAllMocks()
+})
 
 describe('NewWiki', () => {
   let newWiki
@@ -91,30 +98,48 @@ describe('NewWiki', () => {
   })
 
   describe('on submit:', () => {
-    it('invokes the callback function with the current title and content', () => {
-      const mountedNewWiki = mount(<NewWiki />)
-      const requestBody = {
-        title: 'The Polar Bear Family and Me',
-        content: 'Cute and fluffy bears!'
-      }
-      submitFormAndForceUpdate(mountedNewWiki, requestBody)
+    const requestBody = {
+      title: 'The Polar Bear Family and Me',
+      content: 'Cute and fluffy bears!'
+    }
 
+    let mountedNewWikiWithHistory
+
+    beforeEach(() => {
+      mountedNewWikiWithHistory = mount(<NewWiki history={createMemoryHistory()}/>)
+    })
+
+    it('invokes the callback function with the current title and content', () => {
+      submitFormAndForceUpdate(mountedNewWikiWithHistory, requestBody)
       expect(createWiki).toHaveBeenCalledWith(requestBody)
     })
 
     it('disables the create button', () => {
-      const mountedNewWiki = mount(<NewWiki />)
-      const requestBody = {
-        title: 'The Polar Bear Family and Me',
-        content: 'Cute and fluffy bears!'
-      }
-      submitFormAndForceUpdate(mountedNewWiki, requestBody)
+      submitFormAndForceUpdate(mountedNewWikiWithHistory, requestBody)
 
-      const createButtonAfterSubmit = mountedNewWiki.find('Button')
+      const createButtonAfterSubmit = mountedNewWikiWithHistory.find('Button')
       expect(createButtonAfterSubmit.prop('disabled')).toEqual(true)
     })
 
     // TODO - add test cases for handling responses both success & error
+    describe.skip('when the request succeeds:', () => {
+      it('redirects to / when the request succeeds', () => {
+        submitFormAndForceUpdate(mountedNewWikiWithHistory, requestBody)
+        // expectation
+      })
+    })
+
+    describe.skip('when the request fails:', () => {
+      it('display an error message when the request fails', () => {
+        createWiki.mockReturnValue(Promise.reject({status: 500, message: 'error'}))
+        submitFormAndForceUpdate(mountedNewWikiWithHistory, requestBody)
+        // expectation
+      })
+
+      it('re-enables the create button on request failure', () => {
+
+      })
+    })
   })
 
   function setStateAndForceUpdate (component, nextState) {

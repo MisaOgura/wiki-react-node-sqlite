@@ -9,18 +9,25 @@ class NewWiki extends Component {
     this.state = {title: '', content: '', submitted: false}
   }
 
-  handleSubmit (e) {
-    e.preventDefault()
+  handleSubmit (event) {
+    event.preventDefault()
+    
     this.setState({submitted: true})
 
     const title = this.state.title
     const content = this.state.content
 
     createWiki({title, content})
+      .then(this.props.history.push('/'))
+      .catch(err => {
+        console.error(err.message)
+        // display an error message
+        // re-enable the create button for retry
+      })
   }
 
-  handleChange (e) {
-    this.setState({[e.target.id]: e.target.value})
+  handleChange (event) {
+    this.setState({[event.target.id]: event.target.value})
   }
 
   validateForm () {

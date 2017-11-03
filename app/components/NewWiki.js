@@ -18,12 +18,14 @@ class NewWiki extends Component {
     const content = this.state.content
 
     createWiki({title, content})
-      .then(this.props.history.push('/'))
-      .catch(err => {
-        console.error(err.message)
-        // display an error message
-        // re-enable the create button for retry
-      })
+      .then(res => console.log(res))
+      .catch(err => console.log(err.message))
+      // .then(this.props.history.push('/'))
+      // .catch(err => {
+      //   console.error(err.message)
+      //   // display an error message
+      //   // re-enable the create button for retry
+      // })
   }
 
   handleChange (event) {

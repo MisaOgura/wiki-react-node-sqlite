@@ -19,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.17.0",
+    "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.5",

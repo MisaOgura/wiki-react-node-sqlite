@@ -6,7 +6,7 @@ node_modules
 .idea
 
 # bundled files
-public/bundle.js
+public/bundle*
 build
 
 # Logs

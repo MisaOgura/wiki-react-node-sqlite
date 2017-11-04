@@ -3,7 +3,7 @@ import React from 'react'
 import { matchPath, StaticRouter } from 'react-router-dom'
 
 import routes from './routes'
-import renderPage from '../renderPage'
+import renderPage from './renderPage'
 import App from '../components/App'
 
 const router = (req, res) => {

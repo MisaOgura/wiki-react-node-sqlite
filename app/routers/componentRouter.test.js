@@ -1,8 +1,8 @@
 import componentRouter from './componentRouter'
-import renderPage from '../renderPage'
+import renderPage from './renderPage'
 import routes from './routes'
 
-jest.mock('../renderPage', () => jest.fn(() => 'fullyRenderedHTML'))
+jest.mock('./renderPage', () => jest.fn(() => 'fullyRenderedHTML'))
 jest.mock('react-dom/server', () => ({renderToString: jest.fn(() => 'renderedComponent')}))
 
 const mockSend = jest.fn(() => 'renderedPage')

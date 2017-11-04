@@ -9,7 +9,7 @@ class NewWiki extends Component {
     this.state = {title: '', content: '', submitted: false}
   }
 
-  handleSubmit (event) {
+  async handleSubmit (event) {
     event.preventDefault()
 
     this.setState({submitted: true})
@@ -17,9 +17,16 @@ class NewWiki extends Component {
     const title = this.state.title
     const content = this.state.content
 
-    createWiki({title, content})
-      .then(res => console.log(res))
-      .catch(err => console.log(err.message))
+
+    try {
+      const res = await createWiki({title, content})
+      console.log(res)
+    } catch (err) {
+      console.log(err.message)
+    }
+    // createWiki({title, content})
+    //   .then(res => console.log(res))
+    //   .catch(err => console.log(err.message))
       // .then(this.props.history.push('/'))
       // .catch(err => {
       //   console.error(err.message)

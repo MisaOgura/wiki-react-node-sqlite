@@ -1,12 +1,14 @@
-import { renderToString } from 'react-dom/server'
 import React from 'react'
+import path from 'path'
+import Sql from 'better-sqlite3'
+import { renderToString } from 'react-dom/server'
 import { matchPath, StaticRouter } from 'react-router-dom'
 
 import routes from './routes'
 import renderPage from './renderPage'
 import App from '../components/App'
 
-const router = (req, res) => {
+const router = async (req, res) => {
   const match = routes.reduce((acc, route) => matchPath(req.url, {path: route, exact: true}) || acc, null)
 
   if (!match) {
@@ -19,7 +21,16 @@ const router = (req, res) => {
       </StaticRouter>
     )
 
-    res.status(200).send(renderPage(appHtml))
+    let preloadedData
+
+    if (req.url === '/') {
+      const env = process.env.NODE_ENV
+      const db = new Sql(path.join(__dirname, `../../db/${env}.db`))
+      const query = 'SELECT * FROM wiki ORDER BY datetime(date_created) DESC'
+      preloadedData = db.prepare(query).all()
+    }
+
+    res.status(200).send(renderPage(appHtml, preloadedData))
   }
 }
 

@@ -1,4 +1,4 @@
-const renderPage = html => {
+const renderPage = (html, preloadedData = null) => {
   return `
     <!DOCTYPE html>
     <html lang="en">
@@ -9,6 +9,9 @@ const renderPage = html => {
     </head>
     <body>
     <div id='app'>${html}</div>
+    <script>
+      window.__PRELOADED_DATA__ = ${JSON.stringify(preloadedData).replace(/</g, '\\\u003c')}
+    </script>
     <script type="text/javascript" src="../../public/bundle.js"></script>
     </body>
     </html>`

@@ -1,38 +1,31 @@
 import React, { Component } from 'react'
-import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap'
+import {
+  FormGroup,
+  FormControl,
+  ControlLabel,
+  Button,
+  HelpBlock
+} from 'react-bootstrap'
 
 import createWiki from '../services/createWiki'
 
 class NewWiki extends Component {
   constructor (props) {
     super(props)
-    this.state = {title: '', content: '', submitted: false}
+    this.state = {title: '', content: '', submitted: false, submissionError: false}
   }
 
   async handleSubmit (event) {
     event.preventDefault()
-
     this.setState({submitted: true})
 
-    const title = this.state.title
-    const content = this.state.content
-
-
     try {
-      const res = await createWiki({title, content})
-      console.log(res)
+      const requestBody = {title: this.state.title, content: this.state.content}
+      const { data: { id } } = await createWiki(requestBody)
+      this.props.history.push(`/?id=${id}`)
     } catch (err) {
-      console.log(err.message)
+      this.setState({submitted: false, submissionError: true})
     }
-    // createWiki({title, content})
-    //   .then(res => console.log(res))
-    //   .catch(err => console.log(err.message))
-      // .then(this.props.history.push('/'))
-      // .catch(err => {
-      //   console.error(err.message)
-      //   // display an error message
-      //   // re-enable the create button for retry
-      // })
   }
 
   handleChange (event) {
@@ -59,6 +52,10 @@ class NewWiki extends Component {
             onChange={this.handleChange.bind(this)}
             value={this.state.content}
             componentClass='textarea' />
+          {this.state.submissionError &&
+            <HelpBlock className='submission-error'>
+              Oops, failed to create a new wiki... Please try again.
+            </HelpBlock>}
         </FormGroup>
         <Button disabled={this.validateForm() || this.state.submitted} type='submit'>Create</Button>
       </form>

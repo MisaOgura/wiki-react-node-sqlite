@@ -6,7 +6,17 @@ import NewWiki from './NewWiki'
 import createWiki from '../services/createWiki'
 
 jest.mock('../services/createWiki')
-createWiki.mockReturnValue(Promise.resolve({status: 200, body: 'success'}))
+
+const mockResponse = {
+  status: 200,
+  data: {
+    id: 1,
+    title: 'Big Cat Diary',
+    content: 'Lone tiger grrr...',
+    date_created: 'now',
+    date_updated: 'now'
+  }
+}
 
 afterEach(() => {
   jest.clearAllMocks()
@@ -98,46 +108,58 @@ describe('NewWiki', () => {
   })
 
   describe('on submit:', () => {
+    createWiki.mockReturnValue(Promise.resolve(mockResponse))
+
     const requestBody = {
       title: 'The Polar Bear Family and Me',
       content: 'Cute and fluffy bears!'
     }
 
-    let mountedNewWikiWithHistory
+    let newWiki
 
     beforeEach(() => {
-      mountedNewWikiWithHistory = mount(<NewWiki history={createMemoryHistory()} />)
+      newWiki = mount(<NewWiki history={createMemoryHistory()} />)
     })
 
-    it('invokes the callback function with the current title and content', () => {
-      submitFormAndForceUpdate(mountedNewWikiWithHistory, requestBody)
+    afterEach(() => {
+      jest.clearAllMocks()
+    })
+
+    it('invokes the callback function with the current title and content', async () => {
+      await submitFormAndForceUpdate(newWiki, requestBody)
       expect(createWiki).toHaveBeenCalledWith(requestBody)
     })
 
-    it('disables the create button', () => {
-      submitFormAndForceUpdate(mountedNewWikiWithHistory, requestBody)
-
-      const createButtonAfterSubmit = mountedNewWikiWithHistory.find('Button')
+    it('disables the create button', async () => {
+      await submitFormAndForceUpdate(newWiki, requestBody)
+      const createButtonAfterSubmit = newWiki.find('Button')
       expect(createButtonAfterSubmit.prop('disabled')).toEqual(true)
     })
 
-    // TODO - add test cases for handling responses both success & error
-    describe.skip('when the request succeeds:', () => {
-      it('redirects to / when the request succeeds', () => {
-        submitFormAndForceUpdate(mountedNewWikiWithHistory, requestBody)
-        // expectation
+    describe('when the request succeeds:', () => {
+      it('redirects to / when the request succeeds without error message', async () => {
+        const historyPushSpy = jest.spyOn(newWiki.props().history, 'push')
+        const wikiId = mockResponse.data.id
+        await submitFormAndForceUpdate(newWiki, requestBody)
+
+        expect(newWiki.find('span.submission-error')).toHaveLength(0)
+        expect(historyPushSpy).toHaveBeenCalledWith(`/?id=${wikiId}`)
       })
     })
 
-    describe.skip('when the request fails:', () => {
-      it('display an error message when the request fails', () => {
-        createWiki.mockReturnValue(Promise.reject(new Error('Error')))
-        submitFormAndForceUpdate(mountedNewWikiWithHistory, requestBody)
-        // expectation
+    describe('when the request fails:', () => {
+      it('display an error message when the request fails and re-enable the create button', async () => {
+        createWiki.mockReturnValue(Promise.reject(new Error('Smulater error in test')))
+        await submitFormAndForceUpdate(newWiki, requestBody)
+        expect(newWiki.find('span.submission-error')).toHaveLength(1)
       })
 
-      it('re-enables the create button on request failure', () => {
+      it('re-enables the create button on request failure', async () => {
+        createWiki.mockReturnValue(Promise.reject(new Error('Smulater error in test')))
+        await submitFormAndForceUpdate(newWiki, requestBody)
 
+        const createButtonAfterSubmit = newWiki.find('Button')
+        expect(createButtonAfterSubmit.prop('disabled')).toEqual(false)
       })
     })
   })
@@ -147,9 +169,9 @@ describe('NewWiki', () => {
     component.update()
   }
 
-  function submitFormAndForceUpdate (component, requestBody) {
+  async function submitFormAndForceUpdate (component, requestBody) {
     component.setState(requestBody)
-    component.find('Button').simulate('submit')
+    await component.find('Button').simulate('submit')
     component.update()
   }
 

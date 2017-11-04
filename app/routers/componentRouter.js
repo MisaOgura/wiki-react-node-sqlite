@@ -3,8 +3,8 @@ import React from 'react'
 import { matchPath, StaticRouter } from 'react-router-dom'
 
 import routes from './routes'
-import renderPage from './renderPage'
-import App from './components/App'
+import renderPage from '../renderPage'
+import App from '../components/App'
 
 const router = (req, res) => {
   const match = routes.reduce((acc, route) => matchPath(req.url, {path: route, exact: true}) || acc, null)

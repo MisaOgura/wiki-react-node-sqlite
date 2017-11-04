@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build:prod && node ./build/server.js",
-    "start:dev": "concurrently 'npm run build:client:dev' 'npm run build:server:dev' 'nodemon ./build/server.js'",
+    "start": "npm run build:prod && NODE_ENV=prod node ./build/server.js",
+    "start:dev": "concurrently 'npm run build:client:dev' 'npm run build:server:dev' 'NODE_ENV=dev nodemon ./build/server.js'",
     "start:dev:client": "webpack-dev-server --open",
     "build:prod": "npm run build:server && npm run build:client",
     "build:client": "webpack --config webpack.prod.config.js --profile",

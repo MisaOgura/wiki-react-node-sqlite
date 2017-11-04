@@ -6,11 +6,13 @@ import Sql from 'better-sqlite3'
 const apiRouter = Router()
 
 apiRouter.post('/wikis', (req, res) => {
+  const env = process.env.NODE_ENV
+
   const title = req.body.title
   const content = req.body.content
   const now = moment().format()
 
-  const db = new Sql(path.join(__dirname, '../../db/database.db'))
+  const db = new Sql(path.join(__dirname, `../../db/${env}.db`))
   const query = 'INSERT INTO wiki (date_created, date_updated, title, content) VALUES (?, ?, ?, ?)'
   const createEntry = db.prepare(query)
   createEntry.run(now, now, title, content)

@@ -7,9 +7,9 @@ config.plugins.push(
   new UglifyJSPlugin({
     uglifyOptions: {
       compress: {warnings: false},
-      output: {comments: false},
+      output: {comments: false}
     },
-    sourceMap: true,
+    sourceMap: true
   }))
 
 module.exports = config

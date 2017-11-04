@@ -21,8 +21,10 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.17.0",
+    "better-sqlite3": "^4.0.3",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "moment": "^2.19.1",
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.0.0",

@@ -1,27 +1,20 @@
 import request from 'axios'
 import createWiki from './createWiki'
 
-const expectedServerResponse = 'some response from a server'
-
 jest.mock('axios')
+
+const expectedServerResponse = 'some response from a server'
 request.post.mockReturnValue(expectedServerResponse)
 
 describe('createWiki', () => {
-  it('sends a POST request to the backend with given title and content', () => {
-    const title = 'Great Barrier Reef'
-    const content = 'I love sea turtles :)'
-
-    createWiki(title, content)
-
-    expect(request.post.mock.calls.length).toEqual(1)
+  const requestBody = {title: 'Great Barrier Reef', content: 'I love sea turtles :)'}
+  it('sends a POST request to the backend with the right request', () => {
+    createWiki(requestBody)
+    expect(request.post).toHaveBeenCalledWith('/api/wikis', requestBody)
   })
 
   it('receives a response from the backend', () => {
-    const title = 'Great Barrier Reef'
-    const content = 'I love sea turtles :)'
-
-    const response = createWiki(title, content)
-
+    const response = createWiki(requestBody)
     expect(response).toEqual(expectedServerResponse)
   })
 })

@@ -1,12 +1,15 @@
 import path from 'path'
 import Sql from 'better-sqlite3'
+import moment from 'moment'
 
 const databaseClient = () => {
   const env = process.env.NODE_ENV
   const dbPath = path.join(__dirname, `../db/${env}.db`)
 
-  const insertEntry = (title, content, timestamp) => {
+  const insertEntry = (title, content) => {
     const db = new Sql(dbPath)
+    const timestamp = moment().format()
+
     const query = 'INSERT INTO wiki (date_created, date_updated, title, content) VALUES (?, ?, ?, ?)'
     const createEntry = db.prepare(query)
     createEntry.run(timestamp, timestamp, title, content)

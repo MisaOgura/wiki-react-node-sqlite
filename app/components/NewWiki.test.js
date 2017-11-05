@@ -7,16 +7,11 @@ import createWiki from '../services/createWiki'
 
 jest.mock('../services/createWiki')
 
-const mockResponse = {
-  status: 200,
-  data: {
-    id: 1,
-    title: 'Big Cat Diary',
-    content: 'Lone tiger grrr...',
-    date_created: 'now',
-    date_updated: 'now'
-  }
+const mockRequest = {
+  title: 'The Polar Bear Family and Me',
+  content: 'Cute and fluffy bears!'
 }
+const mockResponse = {status: 200}
 
 afterEach(() => {
   jest.clearAllMocks()
@@ -110,11 +105,6 @@ describe('NewWiki', () => {
   describe('on submit:', () => {
     createWiki.mockReturnValue(Promise.resolve(mockResponse))
 
-    const requestBody = {
-      title: 'The Polar Bear Family and Me',
-      content: 'Cute and fluffy bears!'
-    }
-
     let newWiki
 
     beforeEach(() => {
@@ -126,12 +116,12 @@ describe('NewWiki', () => {
     })
 
     it('invokes the callback function with the current title and content', async () => {
-      await submitFormAndForceUpdate(newWiki, requestBody)
-      expect(createWiki).toHaveBeenCalledWith(requestBody)
+      await submitFormAndForceUpdate(newWiki, mockRequest)
+      expect(createWiki).toHaveBeenCalledWith(mockRequest)
     })
 
     it('disables the create button', async () => {
-      await submitFormAndForceUpdate(newWiki, requestBody)
+      await submitFormAndForceUpdate(newWiki, mockRequest)
       const createButtonAfterSubmit = newWiki.find('Button')
       expect(createButtonAfterSubmit.prop('disabled')).toEqual(true)
     })
@@ -139,24 +129,23 @@ describe('NewWiki', () => {
     describe('when the request succeeds:', () => {
       it('redirects to / when the request succeeds without error message', async () => {
         const historyPushSpy = jest.spyOn(newWiki.props().history, 'push')
-        const wikiId = mockResponse.data.id
-        await submitFormAndForceUpdate(newWiki, requestBody)
+        await submitFormAndForceUpdate(newWiki, mockRequest)
 
         expect(newWiki.find('span.submission-error')).toHaveLength(0)
-        expect(historyPushSpy).toHaveBeenCalledWith(`/?id=${wikiId}`)
+        expect(historyPushSpy).toHaveBeenCalledWith(`/`)
       })
     })
 
     describe('when the request fails:', () => {
       it('display an error message when the request fails and re-enable the create button', async () => {
-        createWiki.mockReturnValue(Promise.reject(new Error('Smulater error in test')))
-        await submitFormAndForceUpdate(newWiki, requestBody)
+        createWiki.mockReturnValue(Promise.reject(new Error('Smulated error in test')))
+        await submitFormAndForceUpdate(newWiki, mockRequest)
         expect(newWiki.find('span.submission-error')).toHaveLength(1)
       })
 
       it('re-enables the create button on request failure', async () => {
         createWiki.mockReturnValue(Promise.reject(new Error('Smulater error in test')))
-        await submitFormAndForceUpdate(newWiki, requestBody)
+        await submitFormAndForceUpdate(newWiki, mockRequest)
 
         const createButtonAfterSubmit = newWiki.find('Button')
         expect(createButtonAfterSubmit.prop('disabled')).toEqual(false)

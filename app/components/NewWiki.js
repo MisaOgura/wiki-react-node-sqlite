@@ -12,7 +12,12 @@ import createWiki from '../services/createWiki'
 class NewWiki extends Component {
   constructor (props) {
     super(props)
-    this.state = {title: '', content: '', submitted: false, submissionError: false}
+    this.state = {
+      title: '',
+      content: '',
+      submitted: false,
+      submissionError: false
+    }
   }
 
   async handleSubmit (event) {
@@ -20,9 +25,12 @@ class NewWiki extends Component {
     this.setState({submitted: true})
 
     try {
-      const requestBody = {title: this.state.title, content: this.state.content}
-      const { data: { id } } = await createWiki(requestBody)
-      this.props.history.push(`/?id=${id}`)
+      const requestBody = {
+        title: this.state.title,
+        content: this.state.content
+      }
+      await createWiki(requestBody)
+      this.props.history.push('/')
     } catch (err) {
       this.setState({submitted: false, submissionError: true})
     }

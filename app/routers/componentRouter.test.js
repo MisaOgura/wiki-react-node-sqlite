@@ -1,24 +1,23 @@
 import componentRouter from './componentRouter'
 import renderPage from './renderPage'
 import routes from './routes'
-import fetchWikis from '../services/fetchWikis'
 
-jest.mock('./renderPage', () => jest.fn(() => 'fullyRenderedHTML'))
 jest.mock('react-dom/server', () => ({renderToString: jest.fn(() => 'renderedComponent')}))
-jest.mock('../services/fetchWikis', () => jest.fn(() => 'preloadedState'))
+jest.mock('./renderPage', () => jest.fn(() => 'fullyRenderedHTML'))
+jest.mock('../services/databaseClient', () => jest.fn(() => ({
+  listEntries: jest.fn(() => 'preloadedData')})
+))
 
-const mockSend = jest.fn(() => 'renderedPage')
 const mockRes = {
   status: jest.fn(() => mockRes),
-  send: mockSend
+  send: jest.fn(() => {})
 }
 
 afterEach(() => {
   jest.clearAllMocks()
 })
 
-// TODO - avoid querying database directly
-describe.skip('componentRouter', () => {
+describe('componentRouter', () => {
   routes.forEach(route => {
     it(`renders a page when url matches: ${route}`, () => {
       const mockReq = {url: route}
@@ -30,20 +29,10 @@ describe.skip('componentRouter', () => {
     })
   })
 
-  it('fetches a list of entries and inject to the page when on /', () => {
+  it('fetches a list of entries and injects to the page', () => {
     const mockReq = {url: '/'}
     componentRouter(mockReq, mockRes)
-
-    expect(fetchWikis).toHaveBeenCalled()
-    expect(renderPage).toHaveBeenCalledWith('renderedComponent', 'preloadedState')
-  })
-
-  it('does not fetch a list of entries when not on /', () => {
-    const mockReq = {url: '/wikis/new'}
-    componentRouter(mockReq, mockRes)
-
-    expect(fetchWikis).not.toHaveBeenCalled()
-    expect(renderPage).toHaveBeenCalledWith('renderedComponent', null)
+    expect(renderPage).toHaveBeenCalledWith('renderedComponent', 'preloadedData')
   })
 
   it('renders error message when url does not match', () => {

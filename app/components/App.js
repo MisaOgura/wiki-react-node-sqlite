@@ -9,7 +9,7 @@ const App = (props) => {
     <Switch>
       <Route exact path='/wikis/new' component={NewWiki} />
       <Route exact path='/'
-             render={(routeProps) => <Home {...routeProps} {...props} />} />
+        render={(routeProps) => <Home {...routeProps} {...props} />} />
     </Switch>
   )
 }

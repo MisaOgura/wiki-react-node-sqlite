@@ -21,7 +21,7 @@ describe('NewWiki', () => {
   let newWiki
 
   beforeEach(() => {
-    newWiki = shallow(<NewWiki />)
+    newWiki = shallow(<NewWiki history={createMemoryHistory()} />)
   })
 
   describe('with the initial state:', () => {
@@ -31,8 +31,18 @@ describe('NewWiki', () => {
     })
 
     it('the create button is disabled', () => {
-      const createButton = newWiki.find('Button')
+      const createButton = newWiki.find('Button.create')
       expect(createButton.prop('disabled')).toEqual(true)
+    })
+
+    it('the back button takes the user back to the home page', () => {
+      newWiki = mount(<NewWiki history={createMemoryHistory()} />)
+      const historyPushSpy = jest.spyOn(newWiki.props().history, 'push')
+      const backButton = newWiki.find('Button.back')
+
+      backButton.simulate('click')
+
+      expect(historyPushSpy).toHaveBeenCalledWith(`/`)
     })
   })
 
@@ -79,7 +89,7 @@ describe('NewWiki', () => {
       it('is activated when both the title and content are not empty', () => {
         setStateAndForceUpdate(newWiki, {title: 'Frozen Planet', content: 'Survival below zero'})
 
-        const createButton = newWiki.find('Button')
+        const createButton = newWiki.find('Button.create')
 
         expect(createButton.prop('disabled')).toEqual(false)
       })
@@ -87,7 +97,7 @@ describe('NewWiki', () => {
       it('is disabled when the title is empty', () => {
         setStateAndForceUpdate(newWiki, {content: 'Deep Blue'})
 
-        const createButton = newWiki.find('Button')
+        const createButton = newWiki.find('Button.create')
 
         expect(createButton.prop('disabled')).toEqual(true)
       })
@@ -95,7 +105,7 @@ describe('NewWiki', () => {
       it('is disabled when the content is empty', () => {
         setStateAndForceUpdate(newWiki, {title: 'The Great Rift'})
 
-        const createButton = newWiki.find('Button')
+        const createButton = newWiki.find('Button.create')
 
         expect(createButton.prop('disabled')).toEqual(true)
       })
@@ -104,8 +114,6 @@ describe('NewWiki', () => {
 
   describe('on submit:', () => {
     createWiki.mockReturnValue(Promise.resolve(mockResponse))
-
-    let newWiki
 
     beforeEach(() => {
       newWiki = mount(<NewWiki history={createMemoryHistory()} />)
@@ -122,7 +130,7 @@ describe('NewWiki', () => {
 
     it('disables the create button', async () => {
       await submitFormAndForceUpdate(newWiki, mockRequest)
-      const createButtonAfterSubmit = newWiki.find('Button')
+      const createButtonAfterSubmit = newWiki.find('Button.create')
       expect(createButtonAfterSubmit.prop('disabled')).toEqual(true)
     })
 
@@ -147,7 +155,7 @@ describe('NewWiki', () => {
         createWiki.mockReturnValue(Promise.reject(new Error('Smulater error in test')))
         await submitFormAndForceUpdate(newWiki, mockRequest)
 
-        const createButtonAfterSubmit = newWiki.find('Button')
+        const createButtonAfterSubmit = newWiki.find('Button.create')
         expect(createButtonAfterSubmit.prop('disabled')).toEqual(false)
       })
     })
@@ -160,7 +168,7 @@ describe('NewWiki', () => {
 
   async function submitFormAndForceUpdate (component, requestBody) {
     component.setState(requestBody)
-    await component.find('Button').simulate('submit')
+    await component.find('Button.create').simulate('submit')
     component.update()
   }
 

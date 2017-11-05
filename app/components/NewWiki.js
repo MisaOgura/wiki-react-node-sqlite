@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+  PageHeader,
   FormGroup,
   FormControl,
   ControlLabel,
@@ -36,6 +37,11 @@ class NewWiki extends Component {
     }
   }
 
+  handleBack (event) {
+    event.preventDefault()
+    this.props.history.push('/')
+  }
+
   handleChange (event) {
     this.setState({[event.target.id]: event.target.value})
   }
@@ -46,6 +52,9 @@ class NewWiki extends Component {
 
   render () {
     return <div className='new-wiki'>
+      <PageHeader>
+        <small>Create a Wiki</small>
+      </PageHeader>
       <form onSubmit={this.handleSubmit.bind(this)} className='new-wiki-form'>
         <FormGroup controlId='title'>
           <ControlLabel>Title</ControlLabel>
@@ -60,11 +69,15 @@ class NewWiki extends Component {
             value={this.state.content}
             componentClass='textarea' />
           {this.state.submissionError &&
-            <HelpBlock className='submission-error'>
-              Oops, failed to create a new wiki... Please try again.
-            </HelpBlock>}
+          <HelpBlock className='submission-error'>
+            Oops, failed to create a new wiki... Please try again.
+          </HelpBlock>}
         </FormGroup>
-        <Button disabled={this.validateForm() || this.state.submitted} type='submit'>Create</Button>
+        <Button onClick={this.handleBack.bind(this)} className='back'>Back</Button>
+        <Button
+          disabled={this.validateForm() || this.state.submitted}
+          type='submit'
+          className='create'>Create</Button>
       </form>
     </div>
   }

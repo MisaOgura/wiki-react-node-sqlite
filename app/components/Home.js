@@ -34,7 +34,7 @@ const Home = (props) => {
   }
 
   return <div className='home'>
-    <PageHeader>Wiki Index</PageHeader>
+    <PageHeader><small>Wiki Index</small></PageHeader>
     <ListGroup>{renderWikiList()}</ListGroup>
   </div>
 }

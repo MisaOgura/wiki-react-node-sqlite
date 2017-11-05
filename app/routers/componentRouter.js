@@ -20,7 +20,7 @@ const router = (req, res) => {
 
     const appHtml = renderToString(
       <StaticRouter context={context} location={req.url}>
-        <App preloadedData={preloadedData} />
+        <App entries={preloadedData} />
       </StaticRouter>
     )
 

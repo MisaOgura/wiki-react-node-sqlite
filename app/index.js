@@ -8,6 +8,6 @@ const preloadedData = window.__PRELOADED_DATA__
 delete window.__PRELOADED_DATA__
 
 hydrate(
-  <Router><App preloadedData={preloadedData} /></Router>,
+  <Router><App entries={preloadedData} /></Router>,
   document.getElementById('app')
 )

@@ -7,15 +7,30 @@ class Home extends Component {
     this.state = {entries: this.props.preloadedData || []}
   }
 
-  renderWikiListItem (entry) {
-    return <ListGroupItem
-      className='wiki-list-item'
-      key={entry.id}
-      href={`/wikis/${entry.id}`}
-      onClick={() => {}}
-      header={entry.title}>
-      {`Created: ${formatDate(entry.date_created)}`}
-    </ListGroupItem>
+  handleClick (event) {
+    event.preventDefault()
+    this.props.history.push(event.currentTarget.getAttribute('href'))
+  }
+
+  renderWikiList () {
+    return [{}].concat(this.state.entries).map((entry, i) => {
+      return i === 0
+        ? <ListGroupItem
+          key='new'
+          className='link-create'
+          href='/wikis/new'
+          onClick={this.handleClick.bind(this)}>
+          <h4><b>{'\uFF0B'}</b> Create a new note</h4>
+        </ListGroupItem>
+        : <ListGroupItem
+          key={entry.id}
+          className='wiki-list-item'
+          href={`/wikis/${entry.id}`}
+          onClick={this.handleClick.bind(this)}
+          header={entry.title}>
+          {`Created: ${formatDate(entry.date_created)}`}
+        </ListGroupItem>
+    })
 
     function formatDate (date) {
       return new Date(date).toLocaleString()
@@ -25,9 +40,8 @@ class Home extends Component {
   render () {
     return <div className='home'>
       <h1>Wiki Index</h1>
-      {/* <Link to='/wikis/new' className='btn btn-default btn-lg link-create' >Create a new wiki</Link> */}
       <ListGroup>
-        {this.state.entries.map(this.renderWikiListItem)}
+        {this.renderWikiList()}
       </ListGroup>
     </div>
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ListGroup, ListGroupItem } from 'react-bootstrap'
+import { PageHeader, ListGroup, ListGroupItem } from 'react-bootstrap'
 
 class Home extends Component {
   constructor (props) {
@@ -39,7 +39,7 @@ class Home extends Component {
 
   render () {
     return <div className='home'>
-      <h1>Wiki Index</h1>
+      <PageHeader>Wiki Index</PageHeader>
       <ListGroup>
         {this.renderWikiList()}
       </ListGroup>

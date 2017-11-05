@@ -28,10 +28,6 @@ module.exports = {
         use: {loader: 'babel-loader'},
         include: __dirname,
         exclude: /node_modules/
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
       }
     ]
   },

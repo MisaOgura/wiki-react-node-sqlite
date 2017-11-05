@@ -6,11 +6,13 @@ import NewWiki from './NewWiki'
 
 const App = (props) => {
   return (
-    <Switch>
-      <Route exact path='/wikis/new' component={NewWiki} />
-      <Route exact path='/'
-        render={(routeProps) => <Home {...routeProps} {...props} />} />
-    </Switch>
+    <div className='App container'>
+      <Switch>
+        <Route exact path='/wikis/new' component={NewWiki} />
+        <Route exact path='/'
+          render={(routeProps) => <Home {...routeProps} {...props} />} />
+      </Switch>
+    </div>
   )
 }
 

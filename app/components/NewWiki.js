@@ -38,7 +38,6 @@ class NewWiki extends Component {
 
   render () {
     return <div className='new-wiki'>
-      Create a new Wiki
       <form onSubmit={this.handleSubmit.bind(this)} className='new-wiki-form'>
         <FormGroup controlId='title'>
           <ControlLabel>Title</ControlLabel>

@@ -7,7 +7,6 @@ node_modules
 
 # bundled files
 public/bundle*
-build
 
 # Logs
 *.log

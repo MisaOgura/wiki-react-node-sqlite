@@ -16,12 +16,13 @@ const router = (req, res) => {
     res.status(404).send('Page not found')
   } else {
     const context = {}
+    const preloadedData = databaseClient.listEntries()
+
     const appHtml = renderToString(
       <StaticRouter context={context} location={req.url}>
-        <App />
+        <App preloadedData={preloadedData} />
       </StaticRouter>
     )
-    const preloadedData = databaseClient.listEntries()
 
     res.status(200).send(renderPage(appHtml, preloadedData))
   }

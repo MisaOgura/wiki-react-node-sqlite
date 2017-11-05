@@ -1,6 +1,7 @@
 const routes = [
   '/',
-  '/wikis/new'
+  '/wikis/new',
+  '/wikis/:id'
 ]
 
 export default routes

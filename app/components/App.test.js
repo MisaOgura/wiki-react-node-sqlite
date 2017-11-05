@@ -20,10 +20,7 @@ describe('App', () => {
     expect(app.find(NewWiki)).toHaveLength(1)
   })
 
-  it.skip('fetches the list of entries when coming from another page', () => {
-    const app = mountAppWithPath('/')
-    console.log(app.props().history)
-  })
+  it.skip('fetches the list of entries when coming from another page', () => {})
 
   function mountAppWithPath (path) {
     const props = {context: {}, location: path}

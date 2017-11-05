@@ -20,8 +20,7 @@ const Wiki = (props) => {
       <ListGroupItem
         header={props.content}
         className='content'>
-        {`Created: ${formatDate(props.date_created)}`}
-        {`Updated: ${formatDate(props.date_updated)}`}
+        {`Created: ${formatDate(props.date_created)}`}, {`Updated: ${formatDate(props.date_updated)}`}
       </ListGroupItem>
     </ListGroup>
     <Button onClick={handleBack} className='back'>Back</Button>

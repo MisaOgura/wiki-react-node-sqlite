@@ -61,7 +61,8 @@
       "<rootDir>/build"
     ],
     "coveragePathIgnorePatterns": [
-      "<rootDir>/testConfig/"
+      "<rootDir>/testConfig/",
+      "<rootDir>/app/components/App*"
     ]
   },
   "standard": {

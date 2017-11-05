@@ -8,7 +8,7 @@ const plugins = [
 ]
 
 module.exports = {
-  entry: './app/index.js',
+  entry: path.resolve(__dirname, './app/index.js'),
   devtool: 'eval-source-map',
   devServer: {
     contentBase: './public',

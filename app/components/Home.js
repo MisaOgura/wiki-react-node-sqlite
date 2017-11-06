@@ -1,6 +1,7 @@
 import React from 'react'
 import { PageHeader, ListGroup, ListGroupItem } from 'react-bootstrap'
 import moment from 'moment'
+import PropTypes from 'prop-types'
 
 const Home = (props) => {
   const handleClick = (event) => {
@@ -37,6 +38,14 @@ const Home = (props) => {
     <PageHeader><small>Wiki Index</small></PageHeader>
     <ListGroup>{renderWikiList()}</ListGroup>
   </div>
+}
+
+Home.propTypes = {
+  entries: PropTypes.array.isRequired
+}
+
+Home.defaultProps = {
+  entries: []
 }
 
 export default Home

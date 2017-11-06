@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { withRouter } from 'react-router'
+import PropTypes from 'prop-types'
 
 import Home from './Home'
 import NewWiki from './NewWiki'
@@ -56,6 +57,14 @@ class App extends Component {
       </Switch>
     </div>
   }
+}
+
+App.propTypes = {
+  entries: PropTypes.array.isRequired
+}
+
+App.defaultProps = {
+  entries: []
 }
 
 export default withRouter(App)

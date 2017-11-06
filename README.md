@@ -1,4 +1,4 @@
-## Wiki-like app with React, React Router, Express and Sqlite
+## Wiki-like app with React, React Router, Express and SQLite
 
 ## Instructions
 
@@ -18,9 +18,11 @@
     $ yarn/npm start
     ```
     
-4. The SQLite database is automatically configured on the initial run.
+4. The SQLite database is automatically created on the initial run. The application
+creates a `db` directory at the project root, and configures a database according to
+the environment - `dev.db` for development and `prod.db` for the production. 
 
-5. Checkout `http://localhost:3000`!
+5. Checkout `http://localhost:3000` :D
 
 
 ### To run the test suite
@@ -45,11 +47,11 @@ watching and coverage report out of the box. Happy TDD!
 ## Approach
 
 ### Features
-With the time given, I have chosen a combination of features from the suggested
-list to create an MVP. Then I followed the Kanban style of agile development using
-Trello board to keep track of the progress and priority. 
+With the time given, I have chosen a combination of features and decided on how
+the MVP should look like. I then followed the Kanban style of agile development
+with Trello board and user stories to keep track of the progress and priority. 
 
-With MVP1, users can:
+With this MVP, users can:
 - see the list of existing wiki entries for a quick overview
 - create a new wiki with a title and content
 - visit the individual page for each wiki to read the content 
@@ -59,32 +61,39 @@ With MVP1, users can:
 - Backend: Node.js, Express
 - Database: SQLite, better-sqlite3
 - Test: Jest, Enzyme, SuperTest
-- Coding style: [Standard]([JavaScript Standard Style](https://standardjs.com/))
+- Lint: JavaScript Standard Style
 
 ### Application architecture
-The frontend serves as an interface with the user. I paid an attention to achieve
-a simple yet attracting and user-friendly design. I used a React Router to create
-a single-page application, which allows the user to navigate seamlessly without the
-page reload.
+The frontend serves as an interface with the user. I aimed to achieve a simple yet
+attracting and user-friendly design. I used a React Router to create a single-page
+application, which allows the user to navigate seamlessly without the page reload
+when navigating through different views.
 
-The backend serves as a RESTFUL API to serve and receive data in a JSON format,
-hence mediating the connection between the frontend and the database in a controlled
-manner. It also initially renders the application with pre-loaded data, so that the
-user can see the initial content as soon as the page loads, while the client side
-is loading.
+The backend serves as a RESTful API endpoint to serve and receive data in a JSON
+format, mediating the connection between the frontend and the database in a controlled
+manner. It also renders the application with pre-loaded data, so that the user can
+see the content as soon as the page loads, while the client side is still loading.
 
 ### Code quality & TDD
-I placed a strong emphasis on driving the development by writing through tests.
+I placed a strong emphasis on driving the development by writing thorough tests.
 It allowed me to structure my thoughts and strategies for implementing new features 
-and experiment with them, whilst ensuring that the existing features were working
+and experiment with the ideas, whilst ensuring that the existing features were working
 as expected. The TDD cycle also enabled refactoring of the code with confidence.
 
 ### Future improvements
-- Introduce Redux for the better application state management
-- Add edit and delete functionality
-- Enable sorting alphabetically, or by date
-- Pagination
+I'd like to keep expanding this project to hone my existing skills, as well as
+to explore new technologies.
 
+Technologies:
+- Introduce Redux for better application state management
+- Use other database such as mongoDB
+- Deploy to AWS with server-less architecture using Lambda
+
+Features:
+- Edit and delete functionality
+- Sorting alphabetically, or by date, as well as pagination
+- Ability to write wikis in a markdown format
+- Ability to create and switch between different databases
 
 ## Authour
 

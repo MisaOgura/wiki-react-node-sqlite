@@ -80,13 +80,29 @@ It allowed me to structure my thoughts and strategies for implementing new featu
 and experiment with the ideas, whilst ensuring that the existing features were working
 as expected. The TDD cycle also enabled refactoring of the code with confidence.
 
+### The evil angel - better-sqlite3
+- Problem
+    - I chose this library for its synchronous nature. It works a treat!
+    - However, later found out that [it does not play well with Jest](https://github.com/JoshuaWise/better-sqlite3/issues/45),
+    leaving the integration layer between the database and the backend to a manual testing.
+    - In addition, trying to mock out the library blew up Jest, preventing to perform
+     thorough tests on its consumer modules.
+- Solution
+    - I extracted modules `databaseMiddleware.js` and `databaseClient.js` which are solely
+    responsible for the initial set up of the database and interacting with it, respectively.
+    - By extracting this layer, I could test the consumer modules and kept manual testing to
+    minimum.
+
 ### Future improvements
 I'd like to keep expanding this project to hone my existing skills, as well as
 to explore new technologies.
 
 Technologies:
 - Introduce Redux for better application state management
-- Use other database such as mongoDB
+- Further extract common functionality such as formatDate function
+- Use non-relational database such as mongoDB
+- Reduce bundle size for production
+    - webpack external needs extra config dur to server-side rendering
 - Deploy to AWS with server-less architecture using Lambda
 
 Features:

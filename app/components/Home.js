@@ -3,14 +3,14 @@ import { PageHeader, ListGroup, ListGroupItem } from 'react-bootstrap'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 
-const Home = (props) => {
+const Home = ({ history, entries }) => {
   const handleClick = (event) => {
     event.preventDefault()
-    props.history.push(event.currentTarget.getAttribute('href'))
+    history.push(event.currentTarget.getAttribute('href'))
   }
 
   const renderWikiList = () => {
-    return [{}].concat(props.entries).map((entry, i) => {
+    return [{}].concat(entries).map((entry, i) => {
       return i === 0
         ? <ListGroupItem
           key='new'

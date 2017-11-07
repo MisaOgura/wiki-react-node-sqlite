@@ -5,7 +5,7 @@ import Home from './Home'
 import NewWiki from './NewWiki'
 import Wiki from './Wiki'
 
-const Routes = ({wikiProps, homeProps}) => {
+const Routes = ({ wikiProps, homeProps }) => {
   return <Switch>
     <Route exact path='/wikis/new' component={NewWiki} />
     <Route exact path='/wikis/:id'

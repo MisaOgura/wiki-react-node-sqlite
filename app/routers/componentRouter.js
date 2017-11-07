@@ -10,7 +10,9 @@ import databaseClientFactory from '../services/databaseClient'
 const databaseClient = databaseClientFactory()
 
 const router = (req, res) => {
-  const match = routes.reduce((acc, route) => matchPath(req.url, {path: route, exact: true}) || acc, null)
+  const match = routes.reduce((acc, route) => {
+    return matchPath(req.originalUrl, {path: route, exact: true}) || acc
+  }, null)
 
   if (!match) {
     res.status(404).send('Page not found')
@@ -19,7 +21,7 @@ const router = (req, res) => {
     const preloadedData = databaseClient.listEntries()
 
     const appHtml = renderToString(
-      <StaticRouter context={context} location={req.url}>
+      <StaticRouter context={context} location={req.originalUrl}>
         <App entries={preloadedData} />
       </StaticRouter>
     )

@@ -8,20 +8,19 @@ jest.mock('../services/databaseClient', () => jest.fn(() => ({
   listEntries: jest.fn(() => 'preloadedData')})
 ))
 
+afterEach(() => {
+  jest.clearAllMocks()
+})
+
 const mockRes = {
   status: jest.fn(() => mockRes),
   send: jest.fn(() => {})
 }
 
-afterEach(() => {
-  jest.clearAllMocks()
-})
-
 describe('componentRouter', () => {
   routes.forEach(route => {
     it(`renders a page when url matches: ${route}`, () => {
-      const mockReq = {url: route}
-      componentRouter(mockReq, mockRes)
+      hitComponentRouterWith('/')
 
       expect(mockRes.status).toHaveBeenCalledWith(200)
       expect(renderPage).toHaveBeenCalled()
@@ -30,17 +29,19 @@ describe('componentRouter', () => {
   })
 
   it('fetches a list of entries and injects to the page', () => {
-    const mockReq = {url: '/'}
-    componentRouter(mockReq, mockRes)
+    hitComponentRouterWith('/')
     expect(renderPage).toHaveBeenCalledWith('renderedComponent', 'preloadedData')
   })
 
   it('renders error message when url does not match', () => {
-    const mockReq = {url: '/invalid-path'}
-    componentRouter(mockReq, mockRes)
+    hitComponentRouterWith('/invalid-path')
 
     expect(mockRes.send).toHaveBeenCalledWith('Page not found')
     expect(mockRes.status).toHaveBeenCalledWith(404)
     expect(renderPage).not.toHaveBeenCalled()
   })
+
+  function hitComponentRouterWith (path) {
+    componentRouter({originalUrl: path}, mockRes)
+  }
 })

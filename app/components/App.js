@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
-import { Route, Switch } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 
-import Home from './Home'
-import NewWiki from './NewWiki'
-import Wiki from './Wiki'
+import Routes from './Routes'
 import fetchWikis from '../services/fetchWikis'
 
 class App extends Component {
@@ -13,7 +10,7 @@ class App extends Component {
     super(props)
 
     this.state = {
-      entries: this.props.entries || [],
+      entries: this.props.entries,
       selectedEntry: null
     }
   }
@@ -39,23 +36,13 @@ class App extends Component {
     })
   }
 
-  componentWillUnmount () {
-    this.unlisten()
-  }
-
   render () {
-    const wikiProps = this.state.selectedEntry
-    const homeProps = Object.assign({}, this.props, this.state)
+    const props = {
+      homeProps: {entries: this.state.entries},
+      wikiProps: this.state.selectedEntry
+    }
 
-    return <div className='App container'>
-      <Switch>
-        <Route exact path='/wikis/new' component={NewWiki} />
-        <Route exact path='/wikis/:id'
-          render={(routeProps) => <Wiki {...routeProps} {...wikiProps} />} />
-        <Route exact path='/'
-          render={(routeProps) => <Home {...routeProps} {...homeProps} />} />
-      </Switch>
-    </div>
+    return <div className='App container'><Routes {...props} /></div>
   }
 }
 

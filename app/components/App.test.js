@@ -34,9 +34,25 @@ describe('App', () => {
 
   function mountAppWithPath (path) {
     const props = {context: {}, location: path}
+    const entryOne = {
+      id: 1,
+      title: 'Planet Ant',
+      content: 'They are powerful',
+      date_created: '2017-11-03T22:13:15+00:00',
+      date_updated: '2017-11-03T22:08:06+00:00'
+    }
+    const entryTwo = {
+      id: 2,
+      title: 'Africa',
+      content: 'Migration of wildebeest',
+      date_created: '2017-11-02T22:13:15+00:00',
+      date_updated: '2017-11-04T22:08:06+00:00'
+    }
+    const entries = [entryOne, entryTwo]
+
     return mount(
       <StaticRouter {...props}>
-        <App history={createMemoryHistory()} />
+        <App history={createMemoryHistory()} entries={entries} />
       </StaticRouter>
     )
   }

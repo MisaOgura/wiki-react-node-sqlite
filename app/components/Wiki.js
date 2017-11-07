@@ -1,6 +1,6 @@
 import React from 'react'
-import { Button, PageHeader, ListGroup, ListGroupItem } from 'react-bootstrap'
 import PropTypes from 'prop-types'
+import { Button, PageHeader, ListGroup, ListGroupItem } from 'react-bootstrap'
 
 import { formatDate } from '../utils/formatDate'
 

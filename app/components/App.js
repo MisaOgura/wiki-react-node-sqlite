@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router'
 
 import Routes from './Routes'
 import fetchWikis from '../services/fetchWikis'
@@ -46,12 +46,15 @@ class App extends Component {
   }
 }
 
-App.propTypes = {
-  entries: PropTypes.array.isRequired
-}
+const entriesPropTypes = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  date_created: PropTypes.string.isRequired,
+  date_updated: PropTypes.string.isRequired
+})
 
-App.defaultProps = {
-  entries: []
+App.propTypes = {
+  entries: PropTypes.arrayOf(entriesPropTypes).isRequired
 }
 
 export default withRouter(App)

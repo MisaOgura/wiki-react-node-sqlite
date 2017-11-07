@@ -1,6 +1,6 @@
 import React from 'react'
-import { PageHeader, ListGroup, ListGroupItem } from 'react-bootstrap'
 import PropTypes from 'prop-types'
+import { PageHeader, ListGroup, ListGroupItem } from 'react-bootstrap'
 
 import { formatDate } from '../utils/formatDate'
 
@@ -37,12 +37,15 @@ const Home = ({ history, entries }) => {
   </div>
 }
 
-Home.propTypes = {
-  entries: PropTypes.array.isRequired
-}
+const entriesPropTypes = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  date_created: PropTypes.string.isRequired,
+  date_updated: PropTypes.string.isRequired
+})
 
-Home.defaultProps = {
-  entries: []
+Home.propTypes = {
+  entries: PropTypes.arrayOf(entriesPropTypes).isRequired
 }
 
 export default Home

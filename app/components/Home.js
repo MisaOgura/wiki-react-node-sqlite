@@ -1,7 +1,8 @@
 import React from 'react'
 import { PageHeader, ListGroup, ListGroupItem } from 'react-bootstrap'
-import moment from 'moment'
 import PropTypes from 'prop-types'
+
+import { formatDate } from '../utils/formatDate'
 
 const Home = ({ history, entries }) => {
   const handleClick = (event) => {
@@ -28,10 +29,6 @@ const Home = ({ history, entries }) => {
           {`Created: ${formatDate(entry.date_created)}`}
         </ListGroupItem>
     })
-
-    function formatDate (date) {
-      return moment(date).format('MMMM Do YYYY, HH:mm')
-    }
   }
 
   return <div className='home'>

@@ -1,9 +1,9 @@
 import componentRouter from './componentRouter'
-import renderPage from './renderPage'
-import routes from './routes'
+import renderPage from '../utils/renderPage'
+import routes from '../utils/routes'
 
 jest.mock('react-dom/server', () => ({renderToString: jest.fn(() => 'renderedComponent')}))
-jest.mock('./renderPage', () => jest.fn(() => 'fullyRenderedHTML'))
+jest.mock('../utils/renderPage', () => jest.fn(() => 'fullyRenderedHTML'))
 jest.mock('../services/databaseClient', () => jest.fn(() => ({
   listEntries: jest.fn(() => 'preloadedData')})
 ))

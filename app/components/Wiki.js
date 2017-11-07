@@ -1,13 +1,10 @@
 import React from 'react'
 import { Button, PageHeader, ListGroup, ListGroupItem } from 'react-bootstrap'
-import moment from 'moment'
 import PropTypes from 'prop-types'
 
-const Wiki = ({ history, title, content, date_created, date_updated }) => {
-  const formatDate = (date) => {
-    return moment(date).format('MMMM Do YYYY, HH:mm')
-  }
+import { formatDate } from '../utils/formatDate'
 
+const Wiki = ({ history, title, content, date_created, date_updated }) => {
   const handleBack = (event) => {
     event.preventDefault()
     history.push('/')

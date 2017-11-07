@@ -2,9 +2,9 @@ import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { matchPath, StaticRouter } from 'react-router-dom'
 
-import routes from './routes'
-import renderPage from './renderPage'
 import App from '../components/App'
+import routes from '../utils/routes'
+import renderPage from '../utils/renderPage'
 import databaseClientFactory from '../services/databaseClient'
 
 const databaseClient = databaseClientFactory()

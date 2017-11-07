@@ -2,7 +2,7 @@ import path from 'path'
 import express from 'express'
 import bodyParser from 'body-parser'
 
-import databaseMiddleware from './services/databaseMiddleware'
+import databaseMiddleware from './utils/databaseMiddleware'
 import componentRouter from './routers/componentRouter'
 import apiRouter from './routers/apiRouter'
 

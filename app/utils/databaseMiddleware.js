@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import Sql from 'better-sqlite3'
 
-const dbDirPath = path.join(__dirname, './db')
+const dbDirPath = path.join(__dirname, '../db')
 
 if (!fs.existsSync(dbDirPath)) {
   fs.mkdirSync(dbDirPath)

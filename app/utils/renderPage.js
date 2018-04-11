@@ -3,7 +3,7 @@ const renderPage = (html, preloadedData = null) => {
     <!DOCTYPE html>
     <html lang="en">
     <head>
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <meta charset="UTF-8">
       <title>Wiki Challenge</title>
     </head>

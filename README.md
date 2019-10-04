@@ -2,6 +2,10 @@
 
 ## Instructions
 
+This app was developed with Node v8.
+
+**Please ensure the devault Node version in your environment is 8.**
+
 ### To run the app locally
 1. Install dependencies - it might take a while (!)
     ```

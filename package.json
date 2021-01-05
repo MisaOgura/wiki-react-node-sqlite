@@ -20,7 +20,7 @@
   "author": "Misa ogura",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.17.0",
+    "axios": "^0.21.1",
     "better-sqlite3": "^4.0.3",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",

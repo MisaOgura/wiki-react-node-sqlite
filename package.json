@@ -23,7 +23,7 @@
     "axios": "^0.17.0",
     "better-sqlite3": "^4.0.3",
     "body-parser": "^1.18.2",
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "moment": "^2.19.1",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
